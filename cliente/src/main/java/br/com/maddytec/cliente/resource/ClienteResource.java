@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class ClienteResource {
     private ClienteService clienteService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR')")
     public ResponseEntity<ClienteResponse> save(@RequestBody ClienteRequest clienteRequest) {
         Cliente cliente = new Cliente();
         BeanUtils.copyProperties(clienteRequest, cliente);
@@ -38,6 +40,7 @@ public class ClienteResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'OPERADOR', 'CONSULTA')")
     public ResponseEntity<List<ClienteResponse>> findAll() {
         List<Cliente> listaCliente = clienteService.findAll();
 
@@ -65,6 +68,7 @@ public class ClienteResource {
     }
 
     @GetMapping("/email/{email}")
+    @PreAuthorize("hasAnyRole('OPERADOR', 'CONSULTA')")
     public ResponseEntity<ClienteResponse> findByEmail(@PathVariable(name = "email") String email) {
         try {
             Cliente cliente = clienteService.findByEmail(email);
@@ -79,6 +83,7 @@ public class ClienteResource {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR', 'OPERADOR')")
     public ResponseEntity<ClienteResponse> update(@PathVariable(name = "id") Long id, @RequestBody ClienteRequest clienteRequest) {
         try {
             Cliente cliente = clienteService.findById(id);
@@ -99,6 +104,7 @@ public class ClienteResource {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR')")
     public ResponseEntity<?> deleteById(@PathVariable(name = "id") Long id) {
         try {
             clienteService.deleteById(id);

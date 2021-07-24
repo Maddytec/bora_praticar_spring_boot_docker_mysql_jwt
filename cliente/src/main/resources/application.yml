@@ -13,3 +13,12 @@ spring:
 
   jackson:
     default-property-inclusion: NON_NULL
+
+jwt:
+  secret: _M@d50n@r@uj0d@51lv@_
+  # Token com duracao em minutos
+  expiration: 30
+
+server:
+  error:
+    include-message: always

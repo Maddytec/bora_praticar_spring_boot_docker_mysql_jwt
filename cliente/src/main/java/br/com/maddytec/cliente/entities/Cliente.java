@@ -20,9 +20,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown =  true)
 @Entity(name = "cliente")
-public class Cliente implements Serializable {
-
-	private static final long serialVersionUID = 8241074499164334630L;
+public class Cliente implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
